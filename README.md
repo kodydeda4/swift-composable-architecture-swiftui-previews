@@ -10,7 +10,7 @@ Every feature is a package with two targets:
 
 ## 1. `FeaturePrimitive`
 
-Defines the state and actions, renders the view. Purely vanilla.
+Defines the state and actions, renders the view. Purely vanilla. SwiftUI Previews.
 
 ```swift
 enum LoginFeaturePrimitive: Primitive.Reducer {
