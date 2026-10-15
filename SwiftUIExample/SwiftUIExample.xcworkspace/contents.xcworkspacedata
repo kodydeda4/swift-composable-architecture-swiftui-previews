@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:SwiftUIExample.xcodeproj">
+   </FileRef>
+   <Group
+      location = "group:Packages"
+      name = "Packages">
+      <FileRef
+         location = "group:StorePrimitive">
+      </FileRef>
+      <FileRef
+         location = "group:DesignSystem">
+      </FileRef>
+      <FileRef
+         location = "group:ApiClient">
+      </FileRef>
+      <FileRef
+         location = "group:AppState">
+      </FileRef>
+      <FileRef
+         location = "group:LoginFeature">
+      </FileRef>
+      <FileRef
+         location = "group:PokemonListFeature">
+      </FileRef>
+      <FileRef
+         location = "group:PokemonDetailsFeature">
+      </FileRef>
+      <FileRef
+         location = "group:SettingsFeature">
+      </FileRef>
+      <FileRef
+         location = "group:LandingPagesFeature">
+      </FileRef>
+      <FileRef
+         location = "group:AuthenticationFeature">
+      </FileRef>
+      <FileRef
+         location = "group:MainFeature">
+      </FileRef>
+      <FileRef
+         location = "group:AppFeature">
+      </FileRef>
+   </Group>
+</Workspace>
