@@ -7,7 +7,7 @@ import SwiftUI
 // It doesn't do anything itself. Whatever the closures read must be observable
 // (`@Observable`, TCA's `Store`) for views to update.
 
-/// Vanilla counterparts of TCA's types: `Primitive.Reducer`, `Primitive.StoreOf`,
+/// Vanilla counterparts of TCA's types: `Primitive.Reducer`, `Primitive.Store`, `Primitive.StoreOf`,
 /// `Primitive.Bindable` and `Primitive.ViewAction` (a view's `send(...)`, like `@ViewAction`).
 public enum Primitive {
 	/// A namespace for a vanilla feature's `State` and `Action`, so views can say
@@ -17,33 +17,35 @@ public enum Primitive {
 		associatedtype Action
 	}
 
-	public typealias StoreOf<Feature: Reducer> = StorePrimitive<Feature.State, Feature.Action>
+	public typealias StoreOf<Feature: Reducer> = Store<Feature.State, Feature.Action>
 }
 
-/// Read with `store.email` and send with `send(...)` (`Primitive.ViewAction`).
-/// For bindings, declare it as `@Primitive.Bindable var store` and use `$store.email`.
-@MainActor
-@dynamicMemberLookup
-public struct StorePrimitive<State, Action> {
-	@Binding public var state: State
-	private let sendAction: (Action) -> Void
+extension Primitive {
+	/// Read with `store.email` and send with `send(...)` (`Primitive.ViewAction`).
+	/// For bindings, declare it as `@Primitive.Bindable var store` and use `$store.email`.
+	@MainActor
+	@dynamicMemberLookup
+	public struct Store<State, Action> {
+		@Binding public var state: State
+		private let sendAction: (Action) -> Void
 
-	public init(state: Binding<State>, action: @escaping (Action) -> Void) {
-		self._state = state
-		self.sendAction = action
-	}
+		public init(state: Binding<State>, action: @escaping (Action) -> Void) {
+			self._state = state
+			self.sendAction = action
+		}
 
-	/// Read-only state. Binding writes are ignored.
-	public init(state: @escaping () -> State, action: @escaping (Action) -> Void) {
-		self.init(state: Binding(get: state, set: { _ in }), action: action)
-	}
+		/// Read-only state. Binding writes are ignored.
+		public init(state: @escaping () -> State, action: @escaping (Action) -> Void) {
+			self.init(state: Binding(get: state, set: { _ in }), action: action)
+		}
 
-	public subscript<Value>(dynamicMember keyPath: KeyPath<State, Value>) -> Value {
-		state[keyPath: keyPath]
-	}
+		public subscript<Value>(dynamicMember keyPath: KeyPath<State, Value>) -> Value {
+			state[keyPath: keyPath]
+		}
 
-	public func send(_ action: Action) {
-		sendAction(action)
+		public func send(_ action: Action) {
+			sendAction(action)
+		}
 	}
 }
 
@@ -54,9 +56,9 @@ extension Primitive {
 	@MainActor
 	@propertyWrapper
 	public struct Bindable<State, Action> {
-		public var wrappedValue: StorePrimitive<State, Action>
+		public var wrappedValue: Store<State, Action>
 
-		public init(wrappedValue: StorePrimitive<State, Action>) {
+		public init(wrappedValue: Store<State, Action>) {
 			self.wrappedValue = wrappedValue
 		}
 
@@ -77,7 +79,7 @@ extension Primitive {
 		associatedtype State
 		associatedtype Action
 
-		var store: StorePrimitive<State, Action> { get }
+		var store: Store<State, Action> { get }
 	}
 }
 
@@ -95,7 +97,7 @@ extension Primitive.ViewAction {
 
 // MARK: - Previews
 
-extension StorePrimitive {
+extension Primitive.Store {
 	/// Fixed state. Binding writes and actions are ignored.
 	public static func constant(_ state: State) -> Self {
 		Self(state: .constant(state), action: { _ in })

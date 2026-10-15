@@ -127,7 +127,7 @@ public struct PokemonListView: View {
 			state: \.path,
 			action: \.path
 		)) {
-			PokemonListViewPrimitive(store: StorePrimitive(
+			PokemonListViewPrimitive(store: Primitive.Store(
 				state: { store.view },
 				action: { send($0) }
 			))

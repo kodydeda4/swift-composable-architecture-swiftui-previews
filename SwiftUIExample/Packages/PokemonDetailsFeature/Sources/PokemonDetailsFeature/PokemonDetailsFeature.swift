@@ -63,7 +63,7 @@ public struct PokemonDetailsView: View {
 	}
 	
 	public var body: some View {
-		PokemonDetailsViewPrimitive(store: StorePrimitive(
+		PokemonDetailsViewPrimitive(store: Primitive.Store(
 			state: { store.view },
 			action: { send($0) }
 		))

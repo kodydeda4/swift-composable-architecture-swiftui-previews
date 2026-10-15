@@ -84,7 +84,7 @@ public struct LoginView: View {
 	}
 	
 	public var body: some View {
-		LoginViewPrimitive(store: StorePrimitive(
+		LoginViewPrimitive(store: Primitive.Store(
 			state: $store.view,
 			action: { send($0) }
 		))

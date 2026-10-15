@@ -70,7 +70,7 @@ public struct LandingPagesView: View {
 	}
 	
 	public var body: some View {
-		LandingPagesViewPrimitive(store: StorePrimitive(
+		LandingPagesViewPrimitive(store: Primitive.Store(
 			state: $store.view,
 			action: { send($0) }
 		))

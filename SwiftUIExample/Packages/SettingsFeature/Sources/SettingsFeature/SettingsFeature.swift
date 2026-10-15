@@ -73,7 +73,7 @@ public struct SettingsView: View {
 	}
 	
 	public var body: some View {
-		SettingsViewPrimitive(store: StorePrimitive(
+		SettingsViewPrimitive(store: Primitive.Store(
 			state: $store.view,
 			action: { send($0) }
 		))

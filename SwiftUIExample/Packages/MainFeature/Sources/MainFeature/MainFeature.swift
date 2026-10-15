@@ -110,7 +110,7 @@ public struct MainView: View {
 	}
 	
 	public var body: some View {
-		MainViewPrimitive(store: StorePrimitive(
+		MainViewPrimitive(store: Primitive.Store(
 			state: $store.view,
 			action: { send($0) }
 		)) {
